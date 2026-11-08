@@ -245,7 +245,7 @@ html:has(.menuGate[open]) { overflow: hidden; }
   .portraitHint { top: 18%; right: 4%; }
   .title span { font-size: clamp(4.2rem, 16vw, 9rem); }
   .title span:first-child { top: 6%; left: 8%; transform: scaleX(1.15); }
-  .title span:last-child { bottom: 12%; right: 8%; }
+  .title span:last-child { bottom: 34%; right: 8%; }
   .info { flex-direction: column; align-items: start; gap: 16px; }
   .counts { text-align: left; }
 }

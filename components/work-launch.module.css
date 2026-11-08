@@ -1,0 +1,17 @@
+.overlay {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #07080a;
+  animation: launch-curtain .16s ease-out both;
+}
+
+.player { width: min(100vw, 1100px); aspect-ratio: 16 / 9; }
+.status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+
+@keyframes launch-curtain {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

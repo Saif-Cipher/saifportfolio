@@ -2,14 +2,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { LayoutGroup, motion, useReducedMotion } from "motion/react";
+import { useRef, useState } from "react";
 import { projectHref, projects, type Project, type ProjectCategory } from "@/data/projects";
 import styles from "./selected-works.module.css";
 
 const categories = {
-  automation: { name: "Automation", filter: "Automations", action: "View case study" },
-  website: { name: "Website", filter: "Websites", action: "Visit website" },
-  "enterprise-app": { name: "Enterprise app", filter: "Enterprise app", action: "View application" },
+  automation: { filter: "Automations", action: "View case study" },
+  website: { filter: "Websites", action: "Visit website" },
+  "enterprise-app": { filter: "Enterprise app", action: "View application" },
 };
 
 type Filter = "all" | ProjectCategory;
@@ -32,28 +33,17 @@ const groups = Object.fromEntries(filters.map(({ value }) => [
   value, orderedProjects.filter((project) => value === "all" || project.category === value),
 ]));
 
-function ProjectCard({ project }: { project: Project }) {
-  const { name, action } = categories[project.category];
+function ProjectDetails({ project }: { project: Project }) {
+  const { action } = categories[project.category];
   const title = displayTitle[project.id] ?? project.title;
   const href = projectHref(project);
   const external = Boolean(project.externalUrl);
-  const cover = project.coverImage;
   const actionLabel = `${action} for ${title}`;
   const actionContent = <>{action} <span aria-hidden="true">{external ? "↗" : "→"}</span></>;
 
   return (
-    <article className={styles.card}>
-      <div className={styles.preview}>
-        {cover ? (
-          <Image src={cover} alt={`Project cover for ${title}`} fill
-            sizes="(min-width: 1450px) 650px, (min-width: 768px) 45vw, 90vw" />
-        ) : (
-          <p className="signal-meta">Preview pending approval</p>
-        )}
-      </div>
       <div className={styles.cardBody}>
-        <p className={`signal-meta ${styles.accent}`}>{displayNumber[project.id] ?? project.number} / {name}</p>
-        <h2>{title}</h2>
+        <h2 id="work-preview-title">{title}</h2>
         <p className={styles.summary}>{project.summary}</p>
         {project.tools.length > 0 && (
           <ul className={styles.tools} aria-label="Technologies">
@@ -68,29 +58,62 @@ function ProjectCard({ project }: { project: Project }) {
           <Link className={styles.action} href={href} aria-label={actionLabel}>{actionContent}</Link>
         ))}
       </div>
-    </article>
   );
 }
 
 export function ProjectGallery() {
   const [filter, setFilter] = useState<Filter>("all");
   const visible = groups[filter];
+  const [selected, setSelected] = useState<Project | null>(null);
+  const preview = useRef<HTMLDialogElement>(null);
+  const reduceMotion = useReducedMotion();
 
   return (
     <>
       <div className={styles.toolbar}>
         <div className={styles.filters} role="group" aria-label="Filter projects">
+          <LayoutGroup>
           {filters.map(({ value, label }) => (
             <button key={value} type="button" aria-pressed={value === filter} aria-controls="work-results" onClick={() => setFilter(value)}>
-              {label} <span className={styles.count}>{String(groups[value].length).padStart(2, "0")}</span>
+              {value === filter && (
+                <motion.span className={styles.selection} layoutId="work-filter" aria-hidden="true"
+                  transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 420, damping: 33 }} />
+              )}
+              <span>{label}</span> <span className={styles.count}>{String(groups[value].length).padStart(2, "0")}</span>
             </button>
           ))}
+          </LayoutGroup>
         </div>
         <p className="signal-meta" role="status">{visible.length} {visible.length === 1 ? "project" : "projects"}</p>
       </div>
       <ul className={styles.gallery} id="work-results" aria-label="Selected projects">
-        {visible.map((project) => <li key={project.id}><ProjectCard project={project} /></li>)}
+        {visible.map((project) => (
+          <li key={project.id}>
+            <button className={styles.tile} type="button" aria-haspopup="dialog" onClick={() => {
+              setSelected(project);
+              preview.current?.showModal();
+            }}>
+              {project.coverImage && <Image src={project.coverImage} alt="" fill sizes="(min-width: 768px) 65vw, 90vw" />}
+              <span>{displayTitle[project.id] ?? project.title}</span>
+            </button>
+          </li>
+        ))}
       </ul>
+      <dialog ref={preview} className={styles.projectPreview} aria-labelledby="work-preview-title"
+        onClose={() => setSelected(null)}
+        onClick={(event) => { if (event.target === event.currentTarget) event.currentTarget.close(); }}>
+        <button className={styles.closePreview} type="button" onClick={() => preview.current?.close()}>Close ×</button>
+        {selected && (
+          <div className={styles.previewPanel}>
+            {selected.coverImage && (
+              <div className={styles.preview}>
+                <Image src={selected.coverImage} alt="" fill sizes="(min-width: 900px) 820px, 94vw" />
+              </div>
+            )}
+            <ProjectDetails project={selected} />
+          </div>
+        )}
+      </dialog>
     </>
   );
 }

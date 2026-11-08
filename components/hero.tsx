@@ -73,7 +73,7 @@ export function Hero() {
             <p className={styles.eyebrow}>AI AUTOMATION SPECIALIST<br />AI ENGINEER / WEB DEVELOPER</p>
             <p>I build practical AI workflows and digital products that connect ideas to execution.</p>
             <div className={styles.actions}>
-              <LiquidMetalContact href="#work" label="Explore selected work" icon="↘" compact accent />
+              <LiquidMetalContact href="/work" label="Explore selected work" icon="↘" compact accent />
               <LiquidMetalContact href="#contact" label="Get in touch" compact />
             </div>
           </div>
