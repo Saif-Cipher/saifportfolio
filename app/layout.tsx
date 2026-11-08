@@ -1,4 +1,6 @@
+import { PortfolioLaunch } from "@/components/work-launch";
 import type { Metadata, Viewport } from "next";
+import { PortfolioKineticBackground } from "@/components/portfolio-kinetic-background";
 import "./globals.css";
 
 const deploymentHost = process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL;
@@ -32,7 +34,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body><PortfolioKineticBackground />{children}<PortfolioLaunch /></body>
     </html>
   );
 }

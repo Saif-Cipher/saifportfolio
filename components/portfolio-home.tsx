@@ -1,4 +1,3 @@
-import { WorkLaunch } from "@/components/work-launch";
 import { Hero } from "@/components/hero";
 import { HomepageDetails, HomepageFooter, HomepageOrigin } from "@/components/homepage-details";
 import { SiteHeader } from "@/components/site-header";
@@ -16,7 +15,6 @@ export function PortfolioHome() {
         <HomepageDetails />
       </main>
       <HomepageFooter />
-      <WorkLaunch />
     </div>
   );
 }

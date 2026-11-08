@@ -9,7 +9,7 @@ import styles from "./hero.module.css";
 const links = [
   ["Home", "/#home"],
   ["Work", "/work"],
-  ["About", "#about"],
+  ["About", "/about"],
   ["Contact", "#contact"],
 ] as const;
 
@@ -50,7 +50,7 @@ export function SiteHeader({ navigation = links, contactHref = "#contact" }: {
           </div>
           <nav aria-label="Main navigation" className={styles.menuGateLinks}>
             {navigation.map(([label, href], index) => (
-              <Link href={href} key={href} onClick={() => dialog.current?.close()}>
+              <Link href={href === "/#about" ? "/about" : href} key={href} onClick={() => dialog.current?.close()}>
                 <small aria-hidden="true">0{index + 1}</small>
                 <span>{label}</span>
                 <span aria-hidden="true">↗</span>

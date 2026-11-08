@@ -8,7 +8,7 @@
   --details-orange: var(--signal-accent, #ff5a1f);
   --details-blue: var(--signal-blue, #31a8ff);
   color: var(--details-text);
-  background: var(--details-ink);
+  background: transparent;
   border-top: 1px solid var(--details-line);
 }
 
@@ -91,11 +91,6 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .originTitle > span { opacity: clamp(.24, calc(var(--origin-progress) * var(--words) - var(--word)), 1); }
-}
-
-.signal {
-  background-image: radial-gradient(circle, #ededf014 1px, transparent 1px);
-  background-size: 19px 19px;
 }
 
 .signal .inner { width: calc(100% - 2 * clamp(16px, 2.5vw, 64px)); padding-block: clamp(3rem, 4vw, 5rem); }

@@ -213,8 +213,7 @@
     height: calc(100svh - 72px);
     min-height: 420px;
     overflow: clip;
-    border-block: 1px solid var(--line, #4c4f54);
-    background: radial-gradient(ellipse at center, #15181c 0%, #0a0c0e 52%, #07080a 85%);
+    background: radial-gradient(ellipse at center, #15181c 0%, #0a0c0e99 56%, transparent 78%);
   }
 
   .flightWire,
@@ -239,6 +238,7 @@
     display: grid;
     place-items: center;
     perspective: 1000px;
+    mask-image: radial-gradient(ellipse closest-side, #000 74%, #000b 90%, transparent 115%);
   }
 
   .flightPlane {
@@ -380,7 +380,7 @@
     inset: auto .65rem .75rem;
     max-width: none;
     padding: .65rem;
-    background: #07080aed;
+    background: linear-gradient(90deg, transparent, #07080aed 7% 93%, transparent);
     justify-items: start;
     text-align: left;
   }

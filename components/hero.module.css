@@ -18,7 +18,7 @@
   isolation: isolate;
   overflow: clip;
   color: var(--hero-white);
-  background: var(--hero-ink);
+  background: transparent;
 }
 .mesh {
   position: absolute;

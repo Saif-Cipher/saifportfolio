@@ -5,7 +5,7 @@ export const launchFrames = 36;
 
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 
-export function RocketLaunch() {
+export function RocketLaunch({ destination }: { destination: string }) {
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
   const portrait = width < height;
@@ -61,7 +61,7 @@ export function RocketLaunch() {
         </g>
         <g fontFamily="monospace" fontSize="13" letterSpacing="2">
           <text x={left + inset + 9} y={top + inset + 23} fill="#ff8b64">FLIGHT / 01</text>
-          <text x={right - 9} y={bottom - 11} fill="#9bd5ff" textAnchor="end">{frame < 9 ? "IGNITION" : "SELECTED WORKS"}</text>
+          <text x={right - 9} y={bottom - 11} fill="#9bd5ff" textAnchor="end">{frame < 9 ? "IGNITION" : destination.toUpperCase()}</text>
         </g>
       </svg>
     </AbsoluteFill>

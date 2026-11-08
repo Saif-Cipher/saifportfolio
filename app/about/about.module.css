@@ -1,0 +1,150 @@
+.page { padding-block: clamp(6rem, 10vw, 10rem) clamp(4rem, 9vw, 9rem); }
+.index { color: var(--signal-accent); }
+.hero { text-align: center; }
+.hero h1 { margin: .75rem 0 .4rem; }
+.role { color: var(--signal-blue); }
+.heroLine { max-width: 32ch; margin: .75rem auto 0; color: var(--text-muted); text-wrap: balance; }
+.portraitTrack { max-width: 57.5rem; margin: clamp(1.5rem, 4vw, 3rem) auto 0; }
+.portrait {
+  position: relative;
+  height: clamp(20rem, 58vw, 39rem);
+  overflow: hidden;
+}
+.portrait img { object-fit: contain; object-position: center bottom; mask-image: linear-gradient(#000 84%, transparent); }
+
+@supports (animation-timeline: view()) {
+  @media (min-width: 40rem) and (prefers-reduced-motion: no-preference) {
+    .portrait {
+      animation: about-expand linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 58%;
+    }
+  }
+}
+@keyframes about-expand {
+  from { transform: scale(.76); }
+  to { transform: scale(1); }
+}
+
+.biography, .block, .closing { margin-top: clamp(3rem, 8vw, 8rem); }
+.biography { display: grid; grid-template-columns: minmax(7rem, 1fr) minmax(0, 3fr); gap: 1rem 2rem; }
+.page h2 { margin: 0; font: 400 clamp(2rem, 5.5vw, 5.4rem)/1 var(--display, sans-serif); text-wrap: balance; }
+.copy { max-width: 65ch; margin-top: 1.4rem; }
+.copy strong { color: var(--signal-accent); font-weight: 750; }
+.copy p + p { margin-top: 1rem; }
+.copy p, .support, .capabilities p { color: var(--text-muted); line-height: 1.65; }
+.support { margin-top: .8rem; }
+.toolGroup { margin-top: 1.5rem; }
+.tools, .capabilities, .stages { list-style: none; padding: 0; margin: .8rem 0 0; }
+.tools { display: flex; gap: .5rem; }
+.tools li {
+  flex: 1 1 0;
+  min-width: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: .7rem;
+  padding: .8rem .35rem;
+  min-height: 7rem;
+  border: 1px solid var(--line);
+  background: var(--signal-surface);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.tools img { object-fit: contain; filter: brightness(0) invert(1); }
+.tools li:is(:hover, :focus-visible) { border-color: var(--signal-accent); color: var(--signal-accent); }
+.tools li:focus-visible, .footer a:focus-visible, .actions a:focus-visible { outline: 2px solid var(--signal-blue); outline-offset: 3px; }
+@media (min-width: 52rem) and (prefers-reduced-motion: no-preference) {
+  .tools li { transition: flex-grow .32s cubic-bezier(.22, 1, .36, 1); }
+  .tools li:is(:hover, :focus-visible) { flex-grow: 1.45; }
+}
+
+.capabilities { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; }
+.capabilities li:hover { border-color: var(--signal-accent); }
+.cardTop { display: flex; justify-content: space-between; align-items: center; color: var(--signal-accent); }
+.capabilities h3 { margin: 1rem 0 .55rem; font: 400 clamp(1.5rem, 3vw, 2.6rem)/1.05 var(--display, sans-serif); }
+.closing { padding-top: clamp(1.5rem, 4vw, 3rem); border-top: 1px solid var(--line); }
+.closing em { color: var(--signal-accent); font-style: normal; }
+.actions { display: flex; flex-wrap: wrap; gap: .65rem; margin-top: 1.5rem; }
+.footer { padding-block: 1.4rem; border-top: 1px solid var(--line); }
+.footer > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .65rem; }
+.footer a:hover { color: var(--signal-accent); }
+
+@media (max-width: 51.99rem) {
+  .tools { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 39.99rem) {
+  .biography, .capabilities { grid-template-columns: 1fr; }
+  .tools li { min-height: 5.75rem; font-size: .85rem; }
+}
+
+
+.capabilities { gap: 1rem; }
+.capabilities li {
+  display: grid;
+  align-content: start;
+  border-radius: 1.15rem;
+  padding: clamp(1.1rem, 3vw, 2rem);
+  min-height: 13rem;
+  border: 1px solid #ffffff24;
+  border-top-color: #ff5a1f66;
+  background: radial-gradient(ellipse at top right, #ff5a1f25, transparent 58%), var(--signal-surface);
+  box-shadow: 0 .7rem 1.2rem #0006;
+}
+.cardTop span {
+  border: 1px solid #ff5a1f55;
+  border-radius: 999px;
+  padding: .3rem .55rem;
+}
+.cardTop svg {
+  box-sizing: content-box;
+  padding: .7rem;
+  border: 1px solid #ff5a1f38;
+  border-radius: .85rem;
+  background: #ff5a1f14;
+}
+.capabilities h3 { margin-top: clamp(1.15rem, 3vw, 2.3rem); text-align: center; }
+.capabilities p { text-align: center; text-wrap: pretty; }
+
+.marqueeControl { display: none; }
+.stageMarquee { overflow-x: auto; padding-block: .8rem; scroll-snap-type: x proximity; }
+.stageMarquee:focus-visible { outline: 2px solid var(--signal-blue); outline-offset: 3px; }
+.stageTrack { display: flex; width: max-content; }
+.stages { display: flex; gap: .85rem; margin: 0; padding-inline-end: .85rem; }
+.stages[aria-hidden="true"] { display: none; }
+.stages li {
+  width: clamp(12rem, 27vw, 17rem);
+  min-height: 8rem;
+  padding: 1.15rem;
+  border: 1px solid var(--line);
+  border-radius: 1.15rem;
+  background: var(--signal-surface);
+  box-shadow: inset 0 1px 9px #ffffff12;
+  scroll-snap-align: start;
+}
+.stageHeading { display: flex; align-items: center; gap: .65rem; margin-bottom: .85rem; }
+.stageHeading h3 { margin: 0; font: 400 1.55rem/1 var(--display, sans-serif); }
+.stageNumber {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  color: var(--signal-accent);
+  background: #ff5a1f18;
+  font: 600 .7rem var(--font-mono, monospace);
+}
+.stages p { color: var(--text-muted); line-height: 1.45; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .marqueeControl { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; font-size: .85rem; }
+  .marqueeControl input { accent-color: var(--signal-accent); }
+  .stageMarquee { overflow: hidden; }
+  .stageTrack { animation: approach-marquee 28s linear infinite; }
+  .stages[aria-hidden="true"] { display: flex; }
+  .stageMarquee:hover .stageTrack { animation-play-state: paused; }
+  .stageMarquee:focus-within, .marqueeControl:has(input:checked) + .stageMarquee { overflow-x: auto; }
+  .stageMarquee:focus-within .stageTrack, .marqueeControl:has(input:checked) + .stageMarquee .stageTrack { animation: none; }
+  .stageMarquee:focus-within .stages[aria-hidden="true"], .marqueeControl:has(input:checked) + .stageMarquee .stages[aria-hidden="true"] { display: none; }
+}
+@keyframes approach-marquee { to { transform: translateX(-50%); } }
