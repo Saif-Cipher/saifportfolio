@@ -48,7 +48,6 @@ export function WorkGrid() {
       <div className="section-inner">
         <div className={styles.intro}>
           <div>
-            <p className="signal-meta signal-kicker">{"// Selected work"}</p>
             <h2 className="section-title" id="work-title">Mission files</h2>
           </div>
           <p className="section-intro">
@@ -57,7 +56,7 @@ export function WorkGrid() {
         </div>
         <div className={styles.toolbar} id="project-archive">
           <div className={styles.filters} role="group" aria-label="Filter projects">
-            {filters.map(({ value, label }) => (
+            {filters.map(({ value, label }, index) => (
               <button
                 key={value}
                 type="button"
@@ -65,6 +64,7 @@ export function WorkGrid() {
                   aria-controls="project-results"
                 onClick={() => setFilter(value)}
               >
+                <span className={styles.dockIcon} aria-hidden="true">{["▦", "⚡︎", "◇", "▤"][index]}</span>
                 {label} <span>({String(filterCounts[value]).padStart(2, "0")})</span>
               </button>
             ))}
@@ -74,8 +74,8 @@ export function WorkGrid() {
           </p>
         </div>
         <div id="project-results">
-          <ProjectPicker key={filter} items={visibleProjects} />
-          <MissionFlight key={filter} projects={visibleProjects} />
+          <ProjectPicker key={`picker-${filter}`} items={visibleProjects} />
+          <MissionFlight key={`flight-${filter}`} projects={visibleProjects} />
         </div>
       </div>
     </section>

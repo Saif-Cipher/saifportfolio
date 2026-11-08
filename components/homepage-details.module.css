@@ -361,3 +361,140 @@
 
 
 
+.liquidMetal.accentMetal {
+  color: #17100d;
+  border-color: var(--details-orange, #ff5a1f);
+  background: linear-gradient(145deg, #ff9d6b, var(--details-orange, #ff5a1f) 48%, #ef4818);
+}
+
+.morphElement {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(ellipse at var(--metal-x, 30%) var(--metal-y, 50%), #fff9, transparent 68%);
+  opacity: 0;
+  transform: scale(.65, .4);
+  transition: opacity .24s ease, transform .45s cubic-bezier(.2,.75,.2,1), border-radius .45s ease;
+}
+
+.liquidMetal:is(:hover, :focus-visible) .morphElement {
+  opacity: .8;
+  transform: scale(1);
+  border-radius: 45% 55% 62% 38% / 55% 40% 60% 45%;
+}
+
+@property --profile-beam-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.profile {
+  position: relative;
+  isolation: isolate;
+}
+
+.profile::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  padding: 1px;
+  content: "";
+  pointer-events: none;
+  background: conic-gradient(from var(--profile-beam-angle), transparent 75%, #ff5a1f30 88%, var(--details-orange) 98%, #ffd4b8);
+  mask: linear-gradient(black 0 0) content-box exclude, linear-gradient(black 0 0);
+  animation: profile-beam 6s linear infinite;
+}
+
+@keyframes profile-beam { to { --profile-beam-angle: 360deg; } }
+
+.carousel { max-width: 74rem; margin: 0 auto; }
+.carousel:focus-visible { outline: 2px solid var(--details-blue); outline-offset: 5px; border-radius: 1rem; }
+.carouselFrame { display: grid; touch-action: pan-y pinch-zoom; }
+.carouselSlide {
+  grid-area: 1 / 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1rem, 4vw, 4rem);
+  overflow: clip;
+  padding: clamp(1rem, 3vw, 2.5rem);
+}
+.carouselArt {
+  aspect-ratio: 1;
+  border: 1px solid #31a8ff55;
+  background: #09111c center / cover no-repeat;
+
+  border-radius: .7rem;
+  transform: perspective(700px) rotateY(7deg) rotateZ(-2deg);
+}
+.carouselCopy h3 {
+  margin: .5rem 0;
+  font: 400 clamp(2rem, 6vw, 5rem)/1 var(--font-condensed, Impact, sans-serif);
+  text-transform: uppercase;
+}
+.carouselCopy > p:last-child { color: var(--details-muted); }
+@media (max-width: 36rem) {
+  .carouselSlide { grid-template-columns: 1fr; }
+  .carouselArt { width: min(100%, 17rem); margin-inline: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile::after { animation: none; }
+  .morphElement { transition: none; }
+}
+.profile {
+  gap: .75rem;
+  padding: .75rem;
+  border-radius: 1.35rem;
+  background: radial-gradient(ellipse at 10% 0%, #183047, transparent 65%), #0b1018;
+}
+
+.profile::after { border-radius: inherit; }
+
+.profileControls {
+  display: grid;
+  gap: .65rem;
+}
+
+.profileControls button,
+.profileControls button + button,
+.profilePanel,
+.carouselFrame {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  border: 1px solid #a9d5ff38;
+  border-radius: 1rem;
+  background: linear-gradient(145deg, #b8dcff22, #6481ae0d 55%, #111923b8);
+  box-shadow: inset 0 1px #e4f3ff25, 0 8px 20px #0004;
+  backdrop-filter: blur(14px);
+}
+
+.profileControls button::after,
+.profilePanel::after,
+.carouselFrame::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background: repeating-radial-gradient(circle at 100% 0%, #b8dcff0d 0 1px, transparent 2px 13px);
+  mask-image: linear-gradient(225deg, black, transparent 75%);
+}
+
+.profileControls button[aria-pressed="true"] {
+  border-color: #ff8b64ad;
+  background: linear-gradient(145deg, #ff80552b, #30486538 55%, #111923b8);
+  box-shadow: inset 0 1px #ffe3d83b, 0 8px 20px #0004;
+}
+
+.profileControls button:hover { border-color: #c0defcb0; }
+.profilePanel { align-self: stretch; }
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .profileControls button { transition: transform .25s ease, border-color .25s ease; }
+  .profileControls button:hover { transform: perspective(700px) rotateY(3deg) translateY(-2px); }
+}

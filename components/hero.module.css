@@ -63,7 +63,7 @@
 .status { right: clamp(28px, 5vw, 78px); }
 .file i, .status i { display: inline-block; width: 6px; height: 6px; margin-right: 5px; background: var(--hero-orange); }
 .status i { background: var(--hero-blue); border-radius: 50%; }
-.stage { position: absolute; inset: 116px 0 86px; }
+.stage { position: absolute; inset: 72px 0 54px; }
 .title { display: contents; }
 .title span {
   position: absolute;
@@ -80,7 +80,7 @@
   appearance: none;
   position: absolute;
   z-index: 1;
-  inset: 0 22% 0;
+  inset: 0 13% 0;
   padding: 0;
   border: 0;
   background: transparent;
@@ -89,26 +89,23 @@
 }
 .portrait {
   --hero-reveal-radius: 0px;
-  --reveal-edge: max(0px, calc(var(--hero-reveal-radius) - 12px));
   transition: --hero-reveal-radius .22s cubic-bezier(.2,.75,.25,1);
 }
 .portrait img { object-fit: contain; object-position: bottom; pointer-events: none; }
 .human {
   filter: grayscale(.78) brightness(.82);
   mask-image:
-    linear-gradient(transparent calc(var(--suit-scan, -16%) - 1.5%), black calc(var(--suit-scan, -16%) + 1.5%)),
-    radial-gradient(circle at var(--reveal-x, 50%) var(--reveal-y, 50%), transparent var(--reveal-edge), black var(--hero-reveal-radius));
-  mask-composite: intersect;
+    linear-gradient(transparent calc(var(--suit-scan, -16%) - 1.5%), black calc(var(--suit-scan, -16%) + 1.5%));
 }
 .robot {
   mask-image:
     linear-gradient(black calc(var(--suit-scan, -16%) - 1.5%), transparent calc(var(--suit-scan, -16%) + 1.5%)),
-    radial-gradient(circle at var(--reveal-x, 50%) var(--reveal-y, 50%), black var(--reveal-edge), transparent var(--hero-reveal-radius));
+    radial-gradient(circle var(--hero-reveal-radius) at var(--reveal-x, 50%) var(--reveal-y, 50%), black 40%, #000b 60%, #0006 75%, #0002 88%, transparent 100%);
 }
 .portrait[aria-pressed="true"] .robot { mask-image: none; }
 .portrait[aria-pressed="true"] .human { visibility: hidden; }
 @media (hover: hover) and (pointer: fine) {
-  .portrait:hover { --hero-reveal-radius: clamp(65px, 8vw, 140px); }
+  .portrait:hover { --hero-reveal-radius: clamp(140px, 18vw, 260px); }
 }
 .scan {
   position: absolute;
@@ -151,18 +148,6 @@
 .intro > p:not(.eyebrow) { margin: .65rem 0 1rem; color: #d2d3db; line-height: 1.45; }
 .eyebrow { color: var(--hero-blue); font: 600 .72rem/1.55 var(--font-mono, monospace); letter-spacing: .12em; }
 .actions { display: flex; flex-wrap: wrap; gap: .4rem; }
-.actions a {
-  display: inline-flex;
-  align-items: center;
-  gap: .5rem;
-  min-height: 44px;
-  padding: .55rem .7rem;
-  border: 1px solid #ededf040;
-  background: #0e1013;
-  color: var(--hero-white);
-  font: 700 .68rem var(--font-mono, monospace);
-}
-.actions a:first-child { border-color: var(--hero-orange); background: var(--hero-orange); color: var(--hero-ink); }
 .counts { display: flex; align-items: end; gap: 1rem; margin: 0; text-align: right; }
 .counts div { display: flex; flex-direction: column-reverse; gap: .35rem; }
 .counts dt { color: #b8b9c2; font: 600 .63rem var(--font-mono, monospace); text-transform: uppercase; }
@@ -227,4 +212,9 @@
   .portrait, .menuPanel { transition: none; }
   .portrait:hover { --hero-reveal-radius: 0px; }
   .burn, .scan { display: none; }
+}
+/* Match the visible silhouettes inside the identically sized source canvases. */
+.robot {
+  scale: 1.022;
+  transform-origin: 50% 100%;
 }

@@ -309,3 +309,56 @@
     overflow-wrap: anywhere;
   }
 }
+.filters {
+  padding: .4rem;
+  border: 1px solid #394552;
+  border-radius: 1.2rem;
+  background: #101721;
+  box-shadow: 0 .6rem 1.5rem #0005;
+}
+
+.filters button {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  border-radius: .85rem;
+  transition: transform .2s ease, background .2s ease;
+}
+
+.filters button[aria-pressed="true"] { background-color: #ff5a1f17; }
+.dockIcon { display: inline-grid; width: 1.2em; place-items: center; }
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .filters button:hover { transform: translateY(-5px) scale(1.07); }
+  .filters button:has(+ button:hover), .filters button:hover + button { transform: translateY(-2px); }
+}
+.filters button,
+.projectPicker :is(select, a) {
+  --hover-tint: #ff5a1f;
+  background-image: linear-gradient(110deg, #ff5a1f2b, #ff9c6022);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  transition: background-size .28s cubic-bezier(.22, 1, .36, 1), border-color .24s ease, transform .2s ease;
+}
+
+.projectPicker a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: .75rem;
+  border: 1px solid var(--line);
+  border-radius: .65rem;
+  text-decoration: none;
+}
+
+.projectPicker select { border-radius: .65rem; }
+
+.filters button:is(:hover, :focus-visible),
+.projectPicker :is(select, a):is(:hover, :focus-visible) {
+  background-size: 100% 100%;
+  border-color: var(--hover-tint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filters button, .projectPicker :is(select, a) { transition: none; }
+}

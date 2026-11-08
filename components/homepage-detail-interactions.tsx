@@ -5,8 +5,8 @@ import { motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion
 import { approachSteps, capabilities } from "@/data/homepage-details";
 import styles from "./homepage-details.module.css";
 
-const originOpening = "A workflow starts with a goal. I map how it should work, then";
-const originClosing = "build, test, and refine it.";
+const originOpening = "I design and build AI systems that connect tools, automate repetitive work, and";
+const originClosing = "keep people in control.";
 const originWords = [...originOpening.split(" "), ...originClosing.split(" ")];
 const radarShapes = [
   "80,20 128,64 105,116 52,120 24,61",
@@ -46,10 +46,93 @@ export function OriginScrub() {
             </span>
           ))}
         </h2>
-        <div className={styles.originTimeline} aria-hidden="true">
-          <div className={styles.originProgress}><span /></div>
-          <ol>{approachSteps.map(({ title }) => <li key={title}>{title}</li>)}</ol>
-        </div>
+      </div>
+    </div>
+  );
+}
+
+export function ApproachCarousel() {
+  const [active, setActive] = useState(0);
+  const slide = useRef<HTMLDivElement>(null);
+  const lastWheelStep = useRef(-Infinity);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const card = slide.current;
+    if (!card) return;
+
+    function handleWheel(event: WheelEvent) {
+      if (event.ctrlKey || !event.cancelable || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+      const next = active + Math.sign(event.deltaY);
+      if (next < 0 || next >= approachSteps.length) return;
+
+      event.preventDefault();
+      const now = performance.now();
+      if (now - lastWheelStep.current < 320) return;
+      lastWheelStep.current = now;
+      setActive(next);
+    }
+
+    card.addEventListener("wheel", handleWheel, { passive: false });
+    return () => card.removeEventListener("wheel", handleWheel);
+  }, [active]);
+
+  function move(direction: number) {
+    setActive((index) => Math.max(0, Math.min(approachSteps.length - 1, index + direction)));
+  }
+
+  return (
+    <div
+      className={styles.carousel}
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="AI engineering process"
+      aria-description="Scroll, swipe horizontally, or use the arrow keys to change steps."
+      tabIndex={0}
+      onKeyDown={(event) => {
+        if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) return;
+        event.preventDefault();
+        move(event.key === "ArrowLeft" || event.key === "ArrowUp" ? -1 : 1);
+      }}
+    >
+      <div ref={slide} className={styles.carouselFrame} aria-live="polite"
+        onTouchStart={(event) => {
+          const touch = event.touches[0];
+          touchStart.current = { x: touch.clientX, y: touch.clientY };
+        }}
+        onTouchCancel={() => { touchStart.current = null; }}
+        onTouchEnd={(event) => {
+          const start = touchStart.current;
+          touchStart.current = null;
+          if (!start) return;
+          const touch = event.changedTouches[0];
+          const dx = touch.clientX - start.x;
+          const dy = touch.clientY - start.y;
+          if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) move(dx < 0 ? 1 : -1);
+        }}
+      >
+        {approachSteps.map(({ title, description }, index) => (
+          <motion.div
+            key={title}
+            className={styles.carouselSlide}
+            aria-hidden={index !== active}
+            initial={false}
+            animate={{
+              opacity: index === active ? 1 : 0,
+              scale: index === active || reduceMotion ? 1 : .96,
+              y: index === active || reduceMotion ? 0 : index < active ? -16 : 16,
+            }}
+            transition={{ duration: reduceMotion ? 0 : .38, ease: [.22, 1, .36, 1] }}
+          >
+            <div className={styles.carouselArt} aria-hidden="true" style={{ backgroundImage: `url(/assets/approach/${title.toLowerCase()}.webp)` }} />
+            <div className={styles.carouselCopy}>
+              <p className={styles.kicker}>Step {index + 1} / {approachSteps.length}</p>
+              <h3>{title}</h3>
+              <p>{description}</p>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </div>
   );
@@ -145,10 +228,17 @@ export function moveMetalHighlight(event: PointerEvent<HTMLElement>) {
     button.style.setProperty("--metal-y", `${event.clientY - bounds.top}px`);
   }
 
-export function LiquidMetalContact({ href, label }: { href: string; label: string }) {
+export function LiquidMetalContact({ href, label, icon = "↗", compact = false, accent = false }: {
+  href: string;
+  label: string;
+  icon?: string;
+  compact?: boolean;
+  accent?: boolean;
+}) {
   return (
-    <a className={styles.liquidMetal} href={href} onPointerMove={moveMetalHighlight}>
-      <span className={styles.metalIcon} aria-hidden="true">↗</span>
+    <a className={`liquid-morph-container ${styles.liquidMetal} ${compact ? styles.compactMetal : ""} ${accent ? styles.accentMetal : ""}`} href={href} onPointerMove={moveMetalHighlight}>
+      <span className={`liquid-morph-element ${styles.morphElement}`} aria-hidden="true" />
+      <span className={styles.metalIcon} aria-hidden="true">{icon}</span>
       <span>{label}</span>
     </a>
   );

@@ -2,6 +2,7 @@
 
 import { useId, useRef, useState } from "react";
 import { motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform, type MotionStyle } from "motion/react";
+import { LiquidMetalContact } from "./homepage-detail-interactions";
 import { Portrait } from "@/components/portrait";
 import styles from "./hero.module.css";
 
@@ -57,8 +58,6 @@ export function Hero() {
       <motion.div className={styles.hero} style={{ "--suit-scan": scan } as MotionStyle}>
         <div ref={mesh} className={styles.mesh} aria-hidden="true" />
         <div className={styles.frame} aria-hidden="true" />
-        <div className={styles.file}><i aria-hidden="true" /> FILE 001 / {titleFrame >= 31 ? "CIPHER HOST" : "PROFILE"}</div>
-        <div className={styles.status} aria-hidden="true"><i /> {titleFrame >= 31 ? "SUIT ONLINE" : animationFrame >= 4 ? "SYNCING SUIT" : "SYSTEM ONLINE"} / {String(Math.min(100, Math.round(animationFrame / 33 * 100))).padStart(3, "0")}%</div>
         <div className={styles.stage}>
           <h1 id="hero-title" className={styles.title} aria-label="Saif Hossain">
             <span aria-hidden="true">{scramble("SAIF", "CIPHER", titleFrame, 0)}</span>
@@ -74,8 +73,8 @@ export function Hero() {
             <p className={styles.eyebrow}>AI AUTOMATION SPECIALIST<br />AI ENGINEER / WEB DEVELOPER</p>
             <p>I build practical AI workflows and digital products that connect ideas to execution.</p>
             <div className={styles.actions}>
-              <a href="#work">EXPLORE SELECTED WORK <span aria-hidden="true">↘</span></a>
-              <a href="#contact">GET IN TOUCH <span aria-hidden="true">↗</span></a>
+              <LiquidMetalContact href="#work" label="Explore selected work" icon="↘" compact accent />
+              <LiquidMetalContact href="#contact" label="Get in touch" compact />
             </div>
           </div>
           <dl className={styles.counts} aria-label="Portfolio project counts">

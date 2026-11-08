@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { LiquidMetalContact, OriginScrub, PowerProfile, SignalHeadline } from "@/components/homepage-detail-interactions";
-import { approachSteps, contactEmail, sectionLinks } from "@/data/homepage-details";
+import { ApproachCarousel, LiquidMetalContact, OriginScrub, PowerProfile, SignalHeadline } from "@/components/homepage-detail-interactions";
+import { contactEmail, sectionLinks } from "@/data/homepage-details";
 import { projectHref, projects } from "@/data/projects";
 import styles from "./homepage-details.module.css";
 
@@ -9,15 +9,7 @@ export function HomepageOrigin() {
     <section className={styles.section} id="approach" aria-labelledby="approach-title">
       <OriginScrub />
       <div className={`${styles.inner} ${styles.processInner}`}>
-          <ol className={styles.steps}>
-            {approachSteps.map(({ title, description }, index) => (
-              <li key={title}>
-                <span aria-hidden="true">0{index + 1}</span>
-                <h3>{title}</h3>
-                <p>{description}</p>
-              </li>
-            ))}
-          </ol>
+        <ApproachCarousel />
       </div>
     </section>
   );
@@ -28,10 +20,6 @@ export function HomepageDetails() {
     <>
       <section className={styles.section} id="about" aria-labelledby="about-title">
         <div className={styles.inner}>
-          <div className={styles.sectionTop}>
-            <p className={styles.kicker}>04 / Power profile</p>
-            <p className={styles.index}>About Saif</p>
-          </div>
           <div className={styles.aboutIntro}>
             <h2 id="about-title" className={styles.title}>Systems, workflows <em>&amp; the web.</em></h2>
             <p>I build AI workflows and digital products. My work spans automation, AI integrations, and responsive websites.</p>
@@ -42,10 +30,6 @@ export function HomepageDetails() {
 
       <section className={`${styles.section} ${styles.signal}`} id="contact" aria-labelledby="contact-title">
         <div className={styles.inner}>
-          <div className={styles.sectionTop}>
-            <p className={styles.kicker}>05 / Signal</p>
-            <p className={styles.index}>Contact</p>
-          </div>
           <div className={styles.contactBody}>
             <SignalHeadline />
             <p>Have a workflow to improve or a product to build?</p>

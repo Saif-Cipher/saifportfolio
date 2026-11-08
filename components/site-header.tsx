@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useRef, useState } from "react";
-import { moveMetalHighlight } from "./homepage-detail-interactions";
+import { LiquidMetalContact, moveMetalHighlight } from "./homepage-detail-interactions";
 import metal from "./homepage-details.module.css";
 import styles from "./hero.module.css";
 
@@ -42,7 +42,7 @@ export function SiteHeader() {
             </div>
           </nav>
         </div>
-        <a className={`${metal.liquidMetal} ${metal.compactMetal}`} href="#contact" onPointerMove={moveMetalHighlight}><span className={metal.metalIcon} aria-hidden="true">↗</span> LET’S TALK</a>
+        <LiquidMetalContact href="#contact" label="Let’s talk" compact accent />
       </div>
     </header>
   );
