@@ -120,10 +120,12 @@ export function ApproachCarousel() {
             initial={false}
             animate={{
               opacity: index === active ? 1 : 0,
-              scale: index === active || reduceMotion ? 1 : .96,
-              y: index === active || reduceMotion ? 0 : index < active ? -16 : 16,
+              scale: index === active || reduceMotion ? 1 : index < active ? .9 : .98,
+              y: index === active || reduceMotion ? 0 : index < active ? -22 : 38,
+              rotateX: index === active || reduceMotion ? 0 : index < active ? 9 : -10,
+              rotateZ: index === active || reduceMotion ? 0 : index < active ? -2 : 3,
             }}
-            transition={{ duration: reduceMotion ? 0 : .38, ease: [.22, 1, .36, 1] }}
+            transition={{ duration: reduceMotion ? 0 : .5, ease: [.22, 1, .36, 1] }}
           >
             <div className={styles.carouselArt} aria-hidden="true" style={{ backgroundImage: `url(/assets/approach/${title.toLowerCase()}.webp)` }} />
             <div className={styles.carouselCopy}>

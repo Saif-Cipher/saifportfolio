@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { projects, projectHref, type Project } from "@/data/projects";
+import { projects, projectHref, reviewedProjectCover, type Project } from "@/data/projects";
 import styles from "./case-study.module.css";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -43,20 +43,21 @@ export default async function CaseStudyPage({ params }: Props) {
   const index = caseStudies.findIndex((item) => item.caseStudySlug === slug);
   const project = caseStudies[index];
   if (!project) notFound();
+  const cover = reviewedProjectCover(project);
 
   return (
     <main className="signal-site">
       <article className={styles.study}>
-        <Link className={styles.link} href="/#work">← All mission files</Link>
+        <Link className={styles.link} href="/work">← Selected Works</Link>
         <header className={styles.header}>
           <p className="signal-meta signal-kicker">{"// CASE FILE / "}{project.number}</p>
           <h1>{project.title}</h1>
           <p>{project.summary}</p>
         </header>
-        {project.coverImage && (
+        {cover && (
           <Image
             className={styles.cover}
-            src={project.coverImage}
+            src={cover}
             alt=""
             width={1200}
             height={900}

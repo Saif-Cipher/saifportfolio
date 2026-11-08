@@ -412,7 +412,7 @@
 
 .carousel { max-width: 74rem; margin: 0 auto; }
 .carousel:focus-visible { outline: 2px solid var(--details-blue); outline-offset: 5px; border-radius: 1rem; }
-.carouselFrame { display: grid; touch-action: pan-y pinch-zoom; }
+.carouselFrame { display: grid; perspective: 1000px; touch-action: pan-y pinch-zoom; }
 .carouselSlide {
   grid-area: 1 / 1;
   display: grid;

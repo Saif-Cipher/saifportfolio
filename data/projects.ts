@@ -192,3 +192,10 @@ export function projectHref(project: Project) {
     ? `/work/automations/${project.caseStudySlug}`
     : project.externalUrl;
 }
+
+
+// These covers contain numeric claims flagged in the asset privacy review.
+export function reviewedProjectCover(project: Project) {
+  if (project.id === "bulk-email" || project.id === "lead-qualification") return undefined;
+  return project.coverImage;
+}

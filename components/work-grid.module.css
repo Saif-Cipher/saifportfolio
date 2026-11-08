@@ -353,7 +353,7 @@
 
 .projectPicker select { border-radius: .65rem; }
 
-.filters button:is(:hover, :focus-visible),
+.filters button[aria-pressed="false"]:is(:hover, :focus-visible),
 .projectPicker :is(select, a):is(:hover, :focus-visible) {
   background-size: 100% 100%;
   border-color: var(--hover-tint);
@@ -361,4 +361,11 @@
 
 @media (prefers-reduced-motion: reduce) {
   .filters button, .projectPicker :is(select, a) { transition: none; }
+}
+
+.filters button { transition-property: background-size, transform; }
+
+.filters button[aria-pressed="false"] {
+  --hover-tint: #a2b7ca;
+  background-image: linear-gradient(110deg, #a2b7ca26, #a2b7ca10);
 }
