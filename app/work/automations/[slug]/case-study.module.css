@@ -1,0 +1,87 @@
+.study {
+  width: min(92%, 800px);
+  margin-inline: auto;
+  padding-block: clamp(2rem, 8vw, 6rem);
+}
+
+.header {
+  margin-block: clamp(2rem, 7vw, 5rem) 2rem;
+}
+
+.header h1 {
+  overflow-wrap: anywhere;
+  font: 400 clamp(2.75rem, 8vw, 7rem)/.92 var(--display, sans-serif);
+  text-transform: uppercase;
+}
+
+.header > p:last-child,
+.section > p {
+  max-width: 65ch;
+  margin-top: .9rem;
+  color: var(--text-muted, #b4bac4);
+}
+
+.cover {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line, #4c4f54);
+}
+
+.section {
+  margin-block: clamp(2.25rem, 6vw, 4rem);
+}
+
+.section h2 {
+  font: 400 clamp(1.75rem, 4vw, 3rem)/1 var(--display, sans-serif);
+  text-transform: uppercase;
+}
+
+.section ol {
+  margin-top: 1rem;
+  padding-left: 1.5rem;
+  list-style: decimal;
+}
+
+.section ol li + li {
+  margin-top: .4rem;
+}
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.tools li {
+  padding: .45rem .65rem;
+  border: 1px solid var(--line, #4c4f54);
+  color: var(--signal-blue, #31a8ff);
+}
+
+.navigation {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line, #4c4f54);
+}
+
+.link {
+  display: inline-flex;
+  min-height: 44px;
+  flex-direction: column;
+  justify-content: center;
+  gap: .25rem;
+  color: var(--signal-accent, #ff5a1f);
+  text-decoration: underline;
+  text-underline-offset: .25em;
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--signal-blue, #31a8ff);
+  outline-offset: 3px;
+}
