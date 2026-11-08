@@ -42,7 +42,7 @@ function MissionPlane({
 }) {
   const direction = index % 2 === 0 ? 1 : -1;
   const distance = useTransform(position, (progress) => index - progress);
-  const x = useTransform(distance, [-1, 0, 1, 2], [36, 18, 17, 10].map((offset) => `${direction * offset}vw`));
+  const x = useTransform(distance, [-1, 0, 1, 2], [36, 18, 17, 10].map((offset) => `calc(${direction * offset}vw * var(--flight-offset, 1))`));
   const z = useTransform(distance, [-1, 0, 1, 2, 3], [650, 0, -830, -1570, -2220]);
   const rotateY = useTransform(distance, [-1, 0, 2], [direction * -12, direction * -5, 0]);
   const opacity = useTransform(distance, [-1, -.7, -.35, 0, 1, 2.3], [0, 0, 1, 1, .48, 0]);
@@ -51,7 +51,7 @@ function MissionPlane({
   return (
     <motion.div className={styles.flightPlane} style={{ x, z, rotateY, opacity, zIndex }}>
       {project.coverImage ? (
-        <Image src={project.coverImage} alt="" fill sizes="53vw" />
+        <Image src={project.coverImage} alt="" fill sizes="(max-width: 899px) 80vw, 53vw" />
       ) : (
         <span className={styles.placeholder}>{project.number}</span>
       )}

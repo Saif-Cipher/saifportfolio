@@ -238,15 +238,15 @@ html:has(.menuGate[open]) { overflow: hidden; }
   to { opacity: 1; transform: translateX(0); }
 }
 @media (max-width: 700px) {
-  .hero { min-height: max(740px, 100svh); }
+  .hero { min-height: max(740px, 100svh); grid-template-rows: minmax(0, 1fr) auto; padding-top: 78px; }
   .header { letter-spacing: .04em; }
-  .stage { inset: 125px 0 200px; }
+  .stage { position: relative; inset: auto; min-height: clamp(265px, 48svh, 530px); }
   .portrait { inset: 0 4%; }
   .portraitHint { top: 18%; right: 4%; }
   .title span { font-size: clamp(4.2rem, 16vw, 9rem); }
   .title span:first-child { top: 6%; left: 8%; transform: scaleX(1.15); }
-  .title span:last-child { bottom: 34%; right: 8%; }
-  .info { flex-direction: column; align-items: start; gap: 16px; }
+  .title span:last-child { bottom: 12%; right: 8%; }
+  .info { flex-direction: column; align-items: start; gap: 16px; padding-inline: clamp(24px, 6vw, 48px); }
   .counts { text-align: left; }
 }
 @media (prefers-reduced-motion: reduce) {

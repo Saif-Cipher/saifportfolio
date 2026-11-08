@@ -8,7 +8,7 @@ import styles from "./work-launch.module.css";
 
 export function WorkLaunch() {
   const router = useRouter();
-  const [launching, setLaunching] = useState(false);
+  const [viewport, setViewport] = useState<{ width: number; height: number } | null>(null);
   const pending = useRef(false);
   const player = useRef<PlayerRef>(null);
 
@@ -23,7 +23,7 @@ export function WorkLaunch() {
       if (pending.current) return;
       pending.current = true;
       router.prefetch("/work");
-      setLaunching(true);
+      setViewport({ width: window.innerWidth, height: window.innerHeight });
     }
 
     document.addEventListener("click", startLaunch, true);
@@ -31,7 +31,7 @@ export function WorkLaunch() {
   }, [router]);
 
   useEffect(() => {
-    if (!launching) return;
+    if (!viewport) return;
     const instance = player.current;
 
     function openWorks() {
@@ -49,16 +49,16 @@ export function WorkLaunch() {
       instance?.removeEventListener("error", openWorks);
       window.clearTimeout(fallback);
     };
-  }, [launching, router]);
+  }, [viewport, router]);
 
-  if (!launching) return null;
+  if (!viewport) return null;
 
   return (
     <div className={styles.overlay}>
       <span className={styles.status} role="status">Opening Selected Works</span>
       <div className={styles.player} aria-hidden="true" inert>
         <Player ref={player} component={RocketLaunch} durationInFrames={launchFrames}
-          fps={launchFps} compositionWidth={960} compositionHeight={540}
+          fps={launchFps} compositionWidth={viewport.width} compositionHeight={viewport.height}
           controls={false} clickToPlay={false} spaceKeyToPlayOrPause={false}
           style={{ width: "100%", height: "100%" }} />
       </div>

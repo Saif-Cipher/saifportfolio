@@ -1,4 +1,4 @@
-import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from "remotion";
+import { AbsoluteFill, Easing, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 
 export const launchFps = 30;
 export const launchFrames = 36;
@@ -7,6 +7,15 @@ const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 
 export function RocketLaunch() {
   const frame = useCurrentFrame();
+  const { width, height } = useVideoConfig();
+  const portrait = width < height;
+  const viewHeight = portrait ? 680 : 540;
+  const viewWidth = viewHeight * width / height;
+  const left = 480 - viewWidth / 2;
+  const top = 270 - viewHeight / 2;
+  const inset = 18;
+  const right = left + viewWidth - inset;
+  const bottom = top + viewHeight - inset;
   const ascent = interpolate(frame, [9, 32], [0, 1], { ...clamp, easing: Easing.in(Easing.cubic) });
   const ignition = interpolate(frame, [3, 9, 26, 33], [0, 1, .9, 0], clamp);
   const scene = interpolate(frame, [0, 5, 27, 35], [0, 1, 1, 0], clamp);
@@ -14,7 +23,7 @@ export function RocketLaunch() {
 
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
-      <svg viewBox="0 0 960 540" width="100%" height="100%" style={{ opacity: scene }}>
+      <svg viewBox={`${left} ${top} ${viewWidth} ${viewHeight}`} width="100%" height="100%" style={{ opacity: scene }}>
         <defs>
           <pattern id="launch-grid" width="40" height="40" patternUnits="userSpaceOnUse">
             <path d="M40 0H0V40" fill="none" stroke="#65baff" strokeOpacity=".13" />
@@ -30,8 +39,8 @@ export function RocketLaunch() {
             <stop offset="1" stopColor="#ff5a1f" stopOpacity="0" />
           </linearGradient>
         </defs>
-        <rect x="210" y="42" width="540" height="456" fill="url(#launch-grid)" />
-        <path d="M210 76V42h34m472 0h34v34m0 388v34h-34m-472 0h-34v-34" fill="none" stroke="#ff5a1f" strokeOpacity=".7" />
+        <rect x={left} y={top} width={viewWidth} height={viewHeight} fill="url(#launch-grid)" />
+        <path d={`M${left + inset} ${top + inset + 24}v-24h24 M${right - 24} ${top + inset}h24v24 M${right} ${bottom - 24}v24h-24 M${left + inset + 24} ${bottom}h-24v-24`} fill="none" stroke="#ff5a1f" strokeOpacity=".7" />
         <circle cx="480" cy="316" r={54 + ignition * 24} fill="none" stroke="#65baff" strokeOpacity={.22 + ignition * .15} strokeDasharray="4 7" />
         <path d="M260 397H700" stroke="#65baff" strokeOpacity=".24" />
         {Array.from({ length: 9 }, (_, index) => (
@@ -39,7 +48,7 @@ export function RocketLaunch() {
             cy={370 + ((index * 17 + frame * 5) % 63)} r={2 + index % 3}
             fill={index % 2 ? "#ff5a1f" : "#65baff"} opacity={ignition * (1 - ascent) * .55} />
         ))}
-        <g transform={`translate(${480 + ascent * 220} ${345 - ascent * 540}) rotate(${-7 + ascent * 27})`}>
+        <g transform={`translate(${480 + ascent * (portrait ? viewWidth * .3 : 220)} ${345 - ascent * (portrait ? 670 : 540)}) rotate(${-7 + ascent * 27})`}>
           <path d="M-14 12Q-20 38 0 105Q20 38 14 12Z" fill="url(#launch-flame)"
             transform={`scale(1 ${plume})`} opacity={ignition} />
           <path d="M-23-43Q-52-24-51 10L-22-4M23-43Q52-24 51 10L22-4" fill="#ff5a1f" stroke="#10141c" strokeWidth="3" />
@@ -51,8 +60,8 @@ export function RocketLaunch() {
           <path d="M-19-24H19" stroke="#ff5a1f" strokeWidth="5" />
         </g>
         <g fontFamily="monospace" fontSize="13" letterSpacing="2">
-          <text x="228" y="67" fill="#ff8b64">FLIGHT / 01</text>
-          <text x="732" y="480" fill="#9bd5ff" textAnchor="end">{frame < 9 ? "IGNITION" : "SELECTED WORKS"}</text>
+          <text x={left + inset + 9} y={top + inset + 23} fill="#ff8b64">FLIGHT / 01</text>
+          <text x={right - 9} y={bottom - 11} fill="#9bd5ff" textAnchor="end">{frame < 9 ? "IGNITION" : "SELECTED WORKS"}</text>
         </g>
       </svg>
     </AbsoluteFill>

@@ -53,6 +53,7 @@ export function OriginScrub() {
 
 export function ApproachCarousel() {
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
   const slide = useRef<HTMLDivElement>(null);
   const lastWheelStep = useRef(-Infinity);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
@@ -78,7 +79,37 @@ export function ApproachCarousel() {
     return () => card.removeEventListener("wheel", handleWheel);
   }, [active]);
 
+  useEffect(() => {
+    const card = slide.current;
+    if (!card || paused || reduceMotion) return;
+    const mobile = window.matchMedia("(max-width: 700px), (pointer: coarse)");
+    let inView = false;
+    let timer: number | undefined;
+
+    function schedule() {
+      window.clearInterval(timer);
+      if (mobile.matches && inView && !document.hidden) {
+        timer = window.setInterval(() => setActive((index) => (index + 1) % approachSteps.length), 4500);
+      }
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.intersectionRatio >= .35;
+      schedule();
+    }, { threshold: .35 });
+    observer.observe(card);
+    mobile.addEventListener("change", schedule);
+    document.addEventListener("visibilitychange", schedule);
+    return () => {
+      observer.disconnect();
+      window.clearInterval(timer);
+      mobile.removeEventListener("change", schedule);
+      document.removeEventListener("visibilitychange", schedule);
+    };
+  }, [paused, reduceMotion]);
+
   function move(direction: number) {
+    setPaused(true);
     setActive((index) => Math.max(0, Math.min(approachSteps.length - 1, index + direction)));
   }
 
@@ -88,15 +119,14 @@ export function ApproachCarousel() {
       role="region"
       aria-roledescription="carousel"
       aria-label="AI engineering process"
-      aria-description="Scroll, swipe horizontally, or use the arrow keys to change steps."
-      tabIndex={0}
+        tabIndex={0}
       onKeyDown={(event) => {
         if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) return;
         event.preventDefault();
         move(event.key === "ArrowLeft" || event.key === "ArrowUp" ? -1 : 1);
       }}
     >
-      <div ref={slide} className={styles.carouselFrame} aria-live="polite"
+      <div ref={slide} className={styles.carouselFrame} aria-live={paused || reduceMotion ? "polite" : "off"}
         onTouchStart={(event) => {
           const touch = event.touches[0];
           touchStart.current = { x: touch.clientX, y: touch.clientY };
@@ -120,6 +150,7 @@ export function ApproachCarousel() {
             initial={false}
             animate={{
               opacity: index === active ? 1 : 0,
+              x: index === active || reduceMotion ? "0%" : index < active ? "-100%" : "100%",
               scale: index === active || reduceMotion ? 1 : index < active ? .9 : .98,
               y: index === active || reduceMotion ? 0 : index < active ? -22 : 38,
               rotateX: index === active || reduceMotion ? 0 : index < active ? 9 : -10,
@@ -136,6 +167,11 @@ export function ApproachCarousel() {
           </motion.div>
         ))}
       </div>
+      {!reduceMotion && (
+        <button type="button" className={styles.carouselPlayback} onClick={() => setPaused(!paused)}>
+          {paused ? "Play slides" : "Pause slides"}
+        </button>
+      )}
     </div>
   );
 }

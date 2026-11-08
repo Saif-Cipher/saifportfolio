@@ -498,3 +498,19 @@
   .profileControls button { transition: transform .25s ease, border-color .25s ease; }
   .profileControls button:hover { transform: perspective(700px) rotateY(3deg) translateY(-2px); }
 }
+
+
+.carouselPlayback { display: none; }
+@media (max-width: 700px), (pointer: coarse) {
+  .carouselPlayback {
+    display: block;
+    min-height: 44px;
+    margin: .5rem 0 0 auto;
+    padding-inline: .8rem;
+    border: 1px solid var(--details-line);
+    border-radius: .5rem;
+    background: var(--details-panel);
+    color: inherit;
+  }
+  .originTitle > span { opacity: 1; }
+}
