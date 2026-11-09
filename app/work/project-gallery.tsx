@@ -93,8 +93,10 @@ export function ProjectGallery() {
               setSelected(project);
               preview.current?.showModal();
             }}>
-              {project.coverImage && <Image src={project.coverImage} alt="" fill sizes="(min-width: 768px) 65vw, 90vw" />}
-              <span>{displayTitle[project.id] ?? project.title}</span>
+              <span className={styles.tileArt} aria-hidden="true">
+                {project.coverImage && <Image src={project.coverImage} alt="" fill sizes="(min-width: 768px) 65vw, 90vw" />}
+              </span>
+              <span className={styles.tileCaption}>{displayTitle[project.id] ?? project.title}</span>
             </button>
           </li>
         ))}

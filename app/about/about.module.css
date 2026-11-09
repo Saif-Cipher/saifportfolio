@@ -1,3 +1,5 @@
+/* Hallmark · v2.0.0 · redesign: polish · genre: atmospheric */
+/* Critique: use emphasis sparingly so the biography reads as prose. */
 .page { padding-block: clamp(6rem, 10vw, 10rem) clamp(4rem, 9vw, 9rem); }
 .index { color: var(--signal-accent); }
 .hero { text-align: center; }
@@ -30,7 +32,8 @@
 .biography { display: grid; grid-template-columns: minmax(7rem, 1fr) minmax(0, 3fr); gap: 1rem 2rem; }
 .page h2 { margin: 0; font: 400 clamp(2rem, 5.5vw, 5.4rem)/1 var(--display, sans-serif); text-wrap: balance; }
 .copy { max-width: 65ch; margin-top: 1.4rem; }
-.copy strong { color: var(--signal-accent); font-weight: 750; }
+.copy strong { color: var(--text-main); font-weight: 700; }
+.copy p:first-child strong { color: var(--signal-accent); }
 .copy p + p { margin-top: 1rem; }
 .copy p, .support, .capabilities p { color: var(--text-muted); line-height: 1.65; }
 .support { margin-top: .8rem; }

@@ -1,3 +1,5 @@
+/* Hallmark · v2.0.0 · redesign: polish · genre: atmospheric */
+/* Critique: give the portrait priority over the decorative frame and mesh. */
 @property --hero-reveal-radius {
   syntax: "<length>";
   inherits: true;
@@ -21,6 +23,7 @@
   background: transparent;
 }
 .mesh {
+  opacity: .48;
   position: absolute;
   z-index: -1;
   inset: 7% 12% -6%;
@@ -38,6 +41,7 @@
 }
 @keyframes meshDrift { to { transform: translate3d(3%, -1%, 0) scale(1.07) rotate(2deg); } }
 .frame {
+  opacity: .58;
   position: absolute;
   inset: 86px clamp(14px, 3vw, 48px) 20px;
   background:
