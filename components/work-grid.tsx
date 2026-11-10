@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { MissionFlight } from "@/components/mission-flight";
+import { TextReveal } from "@/components/ui/text-reveal";
 import { projectHref, projects, type Project, type ProjectCategory } from "@/data/projects";
 import styles from "./work-grid.module.css";
 
@@ -48,11 +49,9 @@ export function WorkGrid() {
       <div className="section-inner">
         <div className={styles.intro}>
           <div>
-            <h2 className="section-title" id="work-title">Mission files</h2>
+            <TextReveal as="h2" className="section-title" id="work-title">Mission files</TextReveal>
           </div>
-          <p className="section-intro">
-            Browse automation case studies, websites, and an enterprise application.
-          </p>
+          <TextReveal className="section-intro">Browse automation case studies, websites, and an enterprise application.</TextReveal>
         </div>
         <div className={styles.toolbar} id="project-archive">
           <div className={styles.filters} role="group" aria-label="Filter projects">

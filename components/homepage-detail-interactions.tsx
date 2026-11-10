@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type CSSProperties, type PointerEvent } from "react";
-import { motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
+import { motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform, type MotionValue } from "motion/react";
 import { approachSteps, capabilities } from "@/data/homepage-details";
 import styles from "./homepage-details.module.css";
 
@@ -16,12 +16,10 @@ const radarShapes = [
 
 export function OriginScrub() {
   const section = useRef<HTMLDivElement>(null);
-  const readout = useRef<HTMLSpanElement>(null);
   const { scrollYProgress } = useScroll({ target: section, offset: ["start 65%", "end 35%"] });
   useEffect(() => {
     function updateProgress(progress: number) {
       section.current?.style.setProperty("--origin-progress", String(progress));
-      if (readout.current) readout.current.textContent = `${String(Math.round(progress * 100)).padStart(3, "0")}%`;
     }
     updateProgress(scrollYProgress.get());
     return scrollYProgress.on("change", updateProgress);
@@ -30,10 +28,6 @@ export function OriginScrub() {
   return (
     <div className={styles.originTrack} ref={section}>
       <div className={styles.originStage}>
-        <div className={styles.sectionTop}>
-          <p className={styles.kicker}>02 / Origin story</p>
-          <span className={styles.originReadout} aria-hidden="true" ref={readout}>000%</span>
-        </div>
         <h2 id="approach-title" className={styles.originTitle} aria-label={`${originOpening} ${originClosing}`}>
           {originWords.map((word, index) => (
             <span
@@ -52,126 +46,49 @@ export function OriginScrub() {
 }
 
 export function ApproachCarousel() {
-  const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const slide = useRef<HTMLDivElement>(null);
-  const lastWheelStep = useRef(-Infinity);
-  const touchStart = useRef<{ x: number; y: number } | null>(null);
   const reduceMotion = useReducedMotion();
-
-  useEffect(() => {
-    const card = slide.current;
-    if (!card) return;
-
-    function handleWheel(event: WheelEvent) {
-      if (event.ctrlKey || !event.cancelable || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-      const next = active + Math.sign(event.deltaY);
-      if (next < 0 || next >= approachSteps.length) return;
-
-      event.preventDefault();
-      const now = performance.now();
-      if (now - lastWheelStep.current < 320) return;
-      lastWheelStep.current = now;
-      setActive(next);
-    }
-
-    card.addEventListener("wheel", handleWheel, { passive: false });
-    return () => card.removeEventListener("wheel", handleWheel);
-  }, [active]);
-
-  useEffect(() => {
-    const card = slide.current;
-    if (!card || paused || reduceMotion) return;
-    const mobile = window.matchMedia("(max-width: 700px), (pointer: coarse)");
-    let inView = false;
-    let timer: number | undefined;
-
-    function schedule() {
-      window.clearInterval(timer);
-      if (mobile.matches && inView && !document.hidden) {
-        timer = window.setInterval(() => setActive((index) => (index + 1) % approachSteps.length), 4500);
-      }
-    }
-
-    const observer = new IntersectionObserver(([entry]) => {
-      inView = entry.intersectionRatio >= .35;
-      schedule();
-    }, { threshold: .35 });
-    observer.observe(card);
-    mobile.addEventListener("change", schedule);
-    document.addEventListener("visibilitychange", schedule);
-    return () => {
-      observer.disconnect();
-      window.clearInterval(timer);
-      mobile.removeEventListener("change", schedule);
-      document.removeEventListener("visibilitychange", schedule);
-    };
-  }, [paused, reduceMotion]);
-
-  function move(direction: number) {
-    setPaused(true);
-    setActive((index) => Math.max(0, Math.min(approachSteps.length - 1, index + direction)));
-  }
+  const deck = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: deck, offset: ["start start", "end end"] });
 
   return (
-    <div
-      className={styles.carousel}
-      role="region"
-      aria-roledescription="carousel"
-      aria-label="AI engineering process"
-        tabIndex={0}
-      onKeyDown={(event) => {
-        if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) return;
-        event.preventDefault();
-        move(event.key === "ArrowLeft" || event.key === "ArrowUp" ? -1 : 1);
-      }}
-    >
-      <div ref={slide} className={styles.carouselFrame} aria-live={paused || reduceMotion ? "polite" : "off"}
-        onTouchStart={(event) => {
-          const touch = event.touches[0];
-          touchStart.current = { x: touch.clientX, y: touch.clientY };
-        }}
-        onTouchCancel={() => { touchStart.current = null; }}
-        onTouchEnd={(event) => {
-          const start = touchStart.current;
-          touchStart.current = null;
-          if (!start) return;
-          const touch = event.changedTouches[0];
-          const dx = touch.clientX - start.x;
-          const dy = touch.clientY - start.y;
-          if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) move(dx < 0 ? 1 : -1);
-        }}
-      >
-        {approachSteps.map(({ title, description }, index) => (
-          <motion.div
-            key={title}
-            className={styles.carouselSlide}
-            aria-hidden={index !== active}
-            initial={false}
-            animate={{
-              opacity: index === active ? 1 : 0,
-              x: index === active || reduceMotion ? "0%" : index < active ? "-100%" : "100%",
-              scale: index === active || reduceMotion ? 1 : index < active ? .9 : .98,
-              y: index === active || reduceMotion ? 0 : index < active ? -22 : 38,
-              rotateX: index === active || reduceMotion ? 0 : index < active ? 9 : -10,
-              rotateZ: index === active || reduceMotion ? 0 : index < active ? -2 : 3,
-            }}
-            transition={{ duration: reduceMotion ? 0 : .5, ease: [.22, 1, .36, 1] }}
-          >
-            <div className={styles.carouselArt} aria-hidden="true" style={{ backgroundImage: `url(/assets/approach/${title.toLowerCase()}.webp)` }} />
-            <div className={styles.carouselCopy}>
-              <p className={styles.kicker}>Step {index + 1} / {approachSteps.length}</p>
-              <h3>{title}</h3>
-              <p>{description}</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-      {!reduceMotion && (
-        <button type="button" className={styles.carouselPlayback} onClick={() => setPaused(!paused)}>
-          {paused ? "Play slides" : "Pause slides"}
-        </button>
-      )}
+    <div ref={deck} className={styles.stack} role="list" aria-label="AI engineering process">
+      {approachSteps.map(({ title, description }, index) => (
+        <StackCard
+          key={title}
+          index={index}
+          total={approachSteps.length}
+          title={title}
+          description={description}
+          progress={scrollYProgress}
+          reduceMotion={reduceMotion === true}
+        />
+      ))}
+    </div>
+  );
+}
+
+function StackCard({ index, total, title, description, progress, reduceMotion }: {
+  index: number;
+  total: number;
+  title: string;
+  description: string;
+  progress: MotionValue<number>;
+  reduceMotion: boolean;
+}) {
+  // Earlier cards shrink slightly as later cards stack over them.
+  const targetScale = 1 - (total - index - 1) * 0.04;
+  const scale = useTransform(progress, [index / total, 1], [1, targetScale]);
+
+  return (
+    <div role="listitem" className={styles.stackSlot} style={{ "--i": index, zIndex: index + 1 } as CSSProperties}>
+      <motion.article className={styles.stackCard} style={{ scale: reduceMotion ? 1 : scale }}>
+        <div className={styles.stackArt} aria-hidden="true" style={{ backgroundImage: `url(/assets/approach/${title.toLowerCase()}.webp)` }} />
+        <div className={styles.stackCopy}>
+          <p className={styles.kicker}>Step {index + 1} / {total}</p>
+          <h3>{title}</h3>
+          <p>{description}</p>
+        </div>
+      </motion.article>
     </div>
   );
 }

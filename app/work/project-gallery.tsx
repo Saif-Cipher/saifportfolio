@@ -5,6 +5,7 @@ import Link from "next/link";
 import { LayoutGroup, motion, useReducedMotion } from "motion/react";
 import { useRef, useState } from "react";
 import { projectHref, projects, type Project, type ProjectCategory } from "@/data/projects";
+import { AnimatedProjectCard } from "./animated-project-card";
 import styles from "./selected-works.module.css";
 
 const categories = {
@@ -89,15 +90,17 @@ export function ProjectGallery() {
       <ul className={styles.gallery} id="work-results" aria-label="Selected projects">
         {visible.map((project) => (
           <li key={project.id}>
-            <button className={styles.tile} type="button" aria-haspopup="dialog" onClick={() => {
-              setSelected(project);
-              preview.current?.showModal();
-            }}>
-              <span className={styles.tileArt} aria-hidden="true">
-                {project.coverImage && <Image src={project.coverImage} alt="" fill sizes="(min-width: 768px) 65vw, 90vw" />}
-              </span>
-              <span className={styles.tileCaption}>{displayTitle[project.id] ?? project.title}</span>
-            </button>
+            <AnimatedProjectCard>
+              <button className={styles.tile} type="button" aria-haspopup="dialog" onClick={() => {
+                setSelected(project);
+                preview.current?.showModal();
+              }}>
+                <span className={styles.tileArt} aria-hidden="true">
+                  {project.coverImage && <Image src={project.coverImage} alt="" fill sizes="(min-width: 768px) 65vw, 90vw" />}
+                </span>
+                <span className={styles.tileCaption}>{displayTitle[project.id] ?? project.title}</span>
+              </button>
+            </AnimatedProjectCard>
           </li>
         ))}
       </ul>

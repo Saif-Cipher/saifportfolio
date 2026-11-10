@@ -10,10 +10,10 @@ const links = [
   ["Home", "/#home"],
   ["Work", "/work"],
   ["About", "/about"],
-  ["Contact", "#contact"],
+  ["Contact", "/contact"],
 ] as const;
 
-export function SiteHeader({ navigation = links, contactHref = "#contact" }: {
+export function SiteHeader({ navigation = links, contactHref = "/contact" }: {
   navigation?: readonly (readonly [string, string])[];
   contactHref?: string;
 } = {}) {
@@ -25,14 +25,24 @@ export function SiteHeader({ navigation = links, contactHref = "#contact" }: {
   return (
     <header className={styles.header}>
       <div className={styles.headerActions}>
-        <button type="button" className={`${metal.liquidMetal} ${metal.compactMetal} ${styles.menuButton}`}
-          aria-haspopup="dialog" aria-expanded={expanded} aria-controls={linksId}
-          onPointerMove={moveMetalHighlight} onClick={() => {
-            dialog.current?.showModal();
-            setExpanded(true);
-          }}>
-          <span className={metal.metalIcon} aria-hidden="true">+</span> MENU
-        </button>
+        <div className={styles.menuWrap}>
+          <button type="button" className={`${metal.liquidMetal} ${metal.compactMetal} ${styles.menuButton}`}
+            aria-haspopup="dialog" aria-expanded={expanded} aria-controls={linksId}
+            onPointerMove={moveMetalHighlight} onClick={() => {
+              dialog.current?.showModal();
+              setExpanded(true);
+            }}>
+            <span className={metal.metalIcon} aria-hidden="true">+</span> MENU
+          </button>
+          {!expanded && (
+            <span className={styles.menuSign} aria-hidden="true">
+              Click me
+              <svg className={styles.menuSignArrow} viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </span>
+          )}
+        </div>
         <LiquidMetalContact href={contactHref} label="Let’s talk" compact accent />
       </div>
       <dialog

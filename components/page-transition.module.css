@@ -1,0 +1,57 @@
+.overlay {
+  position: fixed;
+  z-index: 200;
+  inset: 0;
+  overflow: hidden;
+  background:
+    linear-gradient(#65baff1a 1px, transparent 1px) 0 0 / 40px 40px,
+    linear-gradient(90deg, #65baff1a 1px, transparent 1px) 0 0 / 40px 40px,
+    #080808;
+  pointer-events: auto;
+}
+
+html:has(.overlay) { overflow: hidden; }
+
+.rocket {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(22vw, 130px);
+  height: calc(min(22vw, 130px) * 220 / 120);
+  margin-top: calc(min(22vw, 130px) * -110 / 120);
+  margin-left: calc(min(22vw, 130px) / -2);
+  will-change: transform;
+}
+
+.flame {
+  transform-origin: 0 0;
+  animation: flicker .12s ease-in-out infinite alternate;
+}
+
+@keyframes flicker {
+  from { transform: scaleY(.88); }
+  to { transform: scaleY(1.06); }
+}
+
+.label {
+  position: absolute;
+  right: clamp(16px, 4vw, 40px);
+  bottom: clamp(16px, 4vw, 36px);
+  color: #ff8b64;
+  font: 600 .75rem/1 var(--font-mono, monospace);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flame { animation: none; }
+}

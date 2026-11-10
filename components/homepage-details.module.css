@@ -158,7 +158,7 @@
 }
 
 .steps p,
-.aboutIntro > p,
+.aboutIntro p,
 .profilePanel p:not(.kicker),
 .contactBody > p,
 .footerGrid p {
@@ -175,7 +175,7 @@
   gap: 1.5rem 3rem;
 }
 
-.aboutIntro > p { font-size: clamp(1rem, 1.5vw, 1.3rem); }
+.aboutIntro p { font-size: clamp(1rem, 1.5vw, 1.3rem); }
 
 .profileTrack { margin-top: clamp(2rem, 5vw, 4.5rem); }
 
@@ -225,7 +225,6 @@
 .profilePanel p.evidence { margin-top: .65rem; color: var(--details-blue); font-size: .68rem; }
 
 @media (min-width: 52.01rem) and (prefers-reduced-motion: no-preference) {
-  .profileTrack { min-height: 150svh; }
   .profile { position: sticky; top: 112px; align-items: center; }
   .profileControls button { min-height: 6.75rem; color: var(--details-muted); }
   .profileControls button[aria-pressed="true"] { color: var(--details-text); }
@@ -405,35 +404,47 @@
 
 @keyframes profile-beam { to { --profile-beam-angle: 360deg; } }
 
-.carousel { max-width: 74rem; margin: 0 auto; }
-.carousel:focus-visible { outline: 2px solid var(--details-blue); outline-offset: 5px; border-radius: 1rem; }
-.carouselFrame { display: grid; perspective: 1000px; touch-action: pan-y pinch-zoom; }
-.carouselSlide {
-  grid-area: 1 / 1;
+.stack { position: relative; max-width: 74rem; margin: 0 auto; }
+.stackSlot { position: relative; margin-bottom: 1.25rem; }
+.stackCard {
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
   gap: clamp(1rem, 4vw, 4rem);
   overflow: clip;
+  min-height: min(64vh, 34rem);
   padding: clamp(1rem, 3vw, 2.5rem);
+  border: 1px solid #a9d5ff38;
+  border-radius: 1rem;
+  background: linear-gradient(145deg, #b8dcff22, #6481ae0d 55%, #111923b8);
+  box-shadow: inset 0 1px #e4f3ff25, 0 8px 20px #0004;
+  backdrop-filter: blur(14px);
+  transform-origin: 50% 0%;
 }
-.carouselArt {
+.stackArt {
   aspect-ratio: 1;
   border: 1px solid #31a8ff55;
   background: #09111c center / cover no-repeat;
-
   border-radius: .7rem;
   transform: perspective(700px) rotateY(7deg) rotateZ(-2deg);
 }
-.carouselCopy h3 {
+.stackCopy h3 {
   margin: .5rem 0;
   font: 400 clamp(2rem, 6vw, 5rem)/1 var(--font-condensed, Impact, sans-serif);
   text-transform: uppercase;
 }
-.carouselCopy > p:last-child { color: var(--details-muted); }
+.stackCopy > p:last-child { color: var(--details-muted); }
 @media (max-width: 36rem) {
-  .carouselSlide { grid-template-columns: 1fr; }
-  .carouselArt { width: min(100%, 17rem); margin-inline: auto; }
+  .stackCard { grid-template-columns: 1fr; min-height: 0; }
+  .stackArt { width: min(100%, 17rem); margin-inline: auto; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .stackSlot { position: sticky; top: calc(6rem + var(--i, 0) * 18px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stack { padding-bottom: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -444,7 +455,7 @@
   gap: .75rem;
   padding: .75rem;
   border-radius: 1.35rem;
-  background: radial-gradient(ellipse at 10% 0%, #183047, transparent 65%), #0b1018;
+  background: #0b1018;
 }
 
 .profile::after { border-radius: inherit; }
@@ -456,8 +467,7 @@
 
 .profileControls button,
 .profileControls button + button,
-.profilePanel,
-.carouselFrame {
+.profilePanel {
   position: relative;
   isolation: isolate;
   overflow: clip;
@@ -470,7 +480,7 @@
 
 .profileControls button::after,
 .profilePanel::after,
-.carouselFrame::after {
+.stackCard::after {
   position: absolute;
   z-index: -1;
   inset: 0;
@@ -495,17 +505,6 @@
 }
 
 
-.carouselPlayback { display: none; }
 @media (max-width: 700px), (pointer: coarse) {
-  .carouselPlayback {
-    display: block;
-    min-height: 44px;
-    margin: .5rem 0 0 auto;
-    padding-inline: .8rem;
-    border: 1px solid var(--details-line);
-    border-radius: .5rem;
-    background: var(--details-panel);
-    color: inherit;
-  }
   .originTitle > span { opacity: 1; }
 }

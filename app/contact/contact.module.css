@@ -1,0 +1,9 @@
+.page { padding-block: clamp(7rem, 12vw, 10rem) clamp(3rem, 7vw, 6rem); }
+.intro { display: grid; gap: 1rem; margin-bottom: clamp(2.5rem, 6vw, 4.5rem); }
+.label { margin: 0; color: var(--signal-accent); }
+.copy { max-width: 58ch; margin: 0; color: var(--text-muted); font-size: clamp(1rem, 1.6vw, 1.15rem); line-height: 1.6; }
+.panel { padding-top: clamp(1.5rem, 3vw, 2.5rem); border-top: 1px solid var(--line); }
+
+@media (max-width: 38rem) {
+  .page { padding-top: 6rem; }
+}

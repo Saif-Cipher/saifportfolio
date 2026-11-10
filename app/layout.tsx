@@ -1,4 +1,4 @@
-import { PortfolioLaunch } from "@/components/work-launch";
+import { PageTransition } from "@/components/page-transition";
 import type { Metadata, Viewport } from "next";
 import { PortfolioKineticBackground } from "@/components/portfolio-kinetic-background";
 import "./globals.css";
@@ -34,7 +34,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body><PortfolioKineticBackground />{children}<PortfolioLaunch /></body>
+      <body><PortfolioKineticBackground />{children}<PageTransition /></body>
     </html>
   );
 }

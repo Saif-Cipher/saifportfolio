@@ -1,5 +1,6 @@
 import { Hero } from "@/components/hero";
-import { HomepageDetails, HomepageFooter, HomepageOrigin } from "@/components/homepage-details";
+import { HomepageDetails, HomepageOrigin } from "@/components/homepage-details";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { WorkGrid } from "@/components/work-grid";
 
@@ -14,7 +15,7 @@ export function PortfolioHome() {
         <WorkGrid />
         <HomepageDetails />
       </main>
-      <HomepageFooter />
+      <SiteFooter />
     </div>
   );
 }

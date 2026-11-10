@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
+import Aurora from "@/components/ui/aurora";
 
 const portfolioRoutes = new Set(["/", "/work", "/about"]);
 
@@ -125,5 +126,12 @@ function KineticCanvas() {
     };
   }, []);
 
-  return <canvas className="portfolio-kinetic-grid" ref={canvas} aria-hidden="true" />;
+  return (
+    <>
+      <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
+        <Aurora className="h-full w-full" colors={["#ff5a1f", "#31a8ff", "#FB3640"]} intensity={0.14} duration={24} />
+      </div>
+      <canvas className="portfolio-kinetic-grid" ref={canvas} aria-hidden="true" />
+    </>
+  );
 }

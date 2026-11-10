@@ -2,14 +2,16 @@
 /* Critique: use emphasis sparingly so the biography reads as prose. */
 .page { padding-block: clamp(6rem, 10vw, 10rem) clamp(4rem, 9vw, 9rem); }
 .index { color: var(--signal-accent); }
-.hero { text-align: center; }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(16rem, 26rem); column-gap: clamp(2rem, 5vw, 5rem); align-items: start; }
+.heroText { grid-column: 1; grid-row: 1; align-self: start; }
+.hero > :not(.portraitTrack):not(.heroText) { grid-column: 1; }
 .hero h1 { margin: .75rem 0 .4rem; }
 .role { color: var(--signal-blue); }
-.heroLine { max-width: 32ch; margin: .75rem auto 0; color: var(--text-muted); text-wrap: balance; }
-.portraitTrack { max-width: 57.5rem; margin: clamp(1.5rem, 4vw, 3rem) auto 0; }
+.heroLine { max-width: 32ch; margin: .9rem 0 0; color: var(--text-muted); text-wrap: balance; }
+.portraitTrack { grid-column: 2; grid-row: 1; width: 100%; max-width: 26rem; justify-self: end; }
 .portrait {
   position: relative;
-  height: clamp(20rem, 58vw, 39rem);
+  aspect-ratio: 3 / 4;
   overflow: hidden;
 }
 .portrait img { object-fit: contain; object-position: center bottom; mask-image: linear-gradient(#000 84%, transparent); }
@@ -29,9 +31,12 @@
 }
 
 .biography, .block, .closing { margin-top: clamp(3rem, 8vw, 8rem); }
-.biography { display: grid; grid-template-columns: minmax(7rem, 1fr) minmax(0, 3fr); gap: 1rem 2rem; }
+.biography { display: block; }
+.biography h2 { max-width: 18ch; }
 .page h2 { margin: 0; font: 400 clamp(2rem, 5.5vw, 5.4rem)/1 var(--display, sans-serif); text-wrap: balance; }
-.copy { max-width: 65ch; margin-top: 1.4rem; }
+.copy { margin-top: clamp(1.6rem, 3vw, 2.4rem); columns: 2 26rem; column-gap: clamp(2rem, 4vw, 4.5rem); }
+.copy p { break-inside: avoid; }
+.copy p:first-child { column-span: all; max-width: 42ch; margin-bottom: 1.2rem; font-size: clamp(1.2rem, 2vw, 1.55rem); line-height: 1.45; color: var(--text-main); }
 .copy strong { color: var(--text-main); font-weight: 700; }
 .copy p:first-child strong { color: var(--signal-accent); }
 .copy p + p { margin-top: 1rem; }
@@ -68,6 +73,8 @@
 .capabilities h3 { margin: 1rem 0 .55rem; font: 400 clamp(1.5rem, 3vw, 2.6rem)/1.05 var(--display, sans-serif); }
 .closing { padding-top: clamp(1.5rem, 4vw, 3rem); border-top: 1px solid var(--line); }
 .closing em { color: var(--signal-accent); font-style: normal; }
+.closing h2 { text-wrap: balance; max-width: 22ch; }
+.copy p { text-wrap: pretty; }
 .actions { display: flex; flex-wrap: wrap; gap: .65rem; margin-top: 1.5rem; }
 .footer { padding-block: 1.4rem; border-top: 1px solid var(--line); }
 .footer > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .65rem; }
@@ -75,6 +82,11 @@
 
 @media (max-width: 51.99rem) {
   .tools { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 51.99rem) {
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .portraitTrack { grid-column: 1; grid-row: auto; justify-self: stretch; max-width: none; margin-top: 2rem; }
+  .copy { columns: 1; }
 }
 @media (max-width: 39.99rem) {
   .biography, .capabilities { grid-template-columns: 1fr; }

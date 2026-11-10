@@ -50,7 +50,6 @@ export default async function CaseStudyPage({ params }: Props) {
       <article className={styles.study}>
         <Link className={styles.link} href="/work">← Selected Works</Link>
         <header className={styles.header}>
-          <p className="signal-meta signal-kicker">{"// CASE FILE / "}{project.number}</p>
           <h1>{project.title}</h1>
           <p>{project.summary}</p>
         </header>

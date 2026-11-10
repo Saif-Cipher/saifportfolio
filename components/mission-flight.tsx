@@ -17,7 +17,7 @@ function TunnelFrame({ index, position }: { index: number; position: MotionValue
 
   return (
     <motion.rect
-      x={25} y={20} width={1150} height={610}
+      x={25} y={20} width={1150} height={610} rx={48}
       style={{ scale, opacity, transformOrigin: "600px 325px" }}
     />
   );

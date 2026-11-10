@@ -1,0 +1,97 @@
+/* Dark pinned-paper footer: the top edge is torn, with two pushpins. Purely decorative. */
+.footer {
+  position: relative;
+  isolation: isolate;
+  margin-top: clamp(4rem, 9vw, 8rem);
+  padding: clamp(3.5rem, 8vw, 6rem) var(--signal-gutter, 20px) 1.5rem;
+  background: #080808;
+  color: #ededf0;
+}
+
+/* Torn edge: a slightly lighter strip with a jagged bottom, sitting on top of the footer. */
+.footer::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -16px;
+  right: 0;
+  left: 0;
+  height: 17px;
+  background: #101114;
+  clip-path: polygon(0 100%, 0 58%, 4% 26%, 7% 74%, 11% 18%, 15% 68%, 19% 34%, 24% 82%, 29% 22%, 34% 64%, 39% 12%, 45% 72%, 50% 28%, 56% 80%, 61% 18%, 66% 68%, 72% 24%, 78% 76%, 83% 32%, 88% 70%, 93% 16%, 97% 58%, 100% 30%, 100% 100%);
+}
+
+/* Pushpins: decorative only. */
+.pin {
+  position: absolute;
+  z-index: 1;
+  top: -4px;
+  left: 12%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 32%, #ffc2a3, #ff5a1f 42%, #7a2208 100%);
+  box-shadow: 0 3px 6px #000c, 0 0 0 1px #0008;
+}
+.pinRight { right: 12%; left: auto; top: -2px; }
+
+.inner {
+  display: grid;
+  width: min(1320px, 100%);
+  margin-inline: auto;
+  gap: clamp(2rem, 5vw, 3.5rem);
+}
+.name {
+  margin: 0;
+  font: 400 clamp(2.25rem, 6vw, 4.5rem)/.95 var(--font-condensed, Impact, sans-serif);
+  text-transform: uppercase;
+}
+.roles {
+  margin: .75rem 0 0;
+  max-width: 44ch;
+  color: #adb0b8;
+  font: 500 .8rem/1.6 var(--font-mono, monospace);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1.25rem;
+}
+.nav a,
+.contact a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: #ededf0;
+  font-size: 1rem;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color .18s ease, border-color .18s ease;
+}
+.nav a:hover,
+.contact a:hover { color: #ff5a1f; border-color: #ff5a1f; }
+.label {
+  margin: 0 0 .25rem;
+  color: #ff5a1f;
+  font: 600 .7rem/1.4 var(--font-mono, monospace);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+.contact a { overflow-wrap: anywhere; }
+.nav a:focus-visible,
+.contact a:focus-visible { outline: 2px solid #65baff; outline-offset: 3px; }
+.copyright {
+  margin: clamp(2.5rem, 6vw, 4rem) auto 0;
+  width: min(1320px, 100%);
+  padding-top: 1rem;
+  border-top: 1px solid #ededf01f;
+  color: #8a8e97;
+  font: 500 .72rem/1.5 var(--font-mono, monospace);
+  letter-spacing: .06em;
+}
+
+@media (min-width: 52rem) {
+  .inner { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+}

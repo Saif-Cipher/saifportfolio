@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { LiquidMetalContact } from "@/components/homepage-detail-interactions";
 import styles from "./about.module.css";
+import { TextReveal } from "@/components/ui/text-reveal";
 
 export const metadata: Metadata = {
   title: "About | Saif Hossain",
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 const navigation = [
-  ["Home", "/#home"], ["Works", "/work"], ["About", "/about"], ["Contact", "/#contact"],
+  ["Home", "/#home"], ["Works", "/work"], ["About", "/about"], ["Contact", "/contact"],
 ] as const;
 
 const headline = "I turn complex ideas into practical digital systems.";
@@ -39,14 +40,15 @@ export default function AboutPage() {
   return (
     <div className="signal-site">
       <a className="portfolio-skip" href="#about-main">Skip to content</a>
-      <SiteHeader navigation={navigation} contactHref="/#contact" />
+      <SiteHeader navigation={navigation} contactHref="/contact" />
       <main id="about-main" tabIndex={-1} className={styles.page}>
         <div className="section-inner">
           <header className={styles.hero}>
-            <p className={`signal-meta ${styles.index}`}>03 / About</p>
-            <h1 className="section-title">Saif Hossain</h1>
-            <p className={styles.role}>AI Engineer &amp; Developer</p>
-            <p className={styles.heroLine}>{headline}</p>
+            <div className={styles.heroText}>
+              <h1 className="section-title">Saif Hossain</h1>
+              <p className={styles.role}>AI Engineer &amp; Developer</p>
+              <p className={styles.heroLine}>{headline}</p>
+            </div>
             <figure className={styles.portraitTrack}>
               <div className={styles.portrait}>
                 <Image src="/assets/profile/portraits/saif-hero.webp" alt="Saif Hossain wearing a dark suit" fill preload
@@ -56,21 +58,18 @@ export default function AboutPage() {
           </header>
 
           <section className={styles.biography} aria-labelledby="about-bio">
-            <p className={`signal-meta ${styles.index}`}>About me</p>
             <div>
-              <h2 id="about-bio">{headline}</h2>
+              <TextReveal as="h2" id="about-bio">{headline}</TextReveal>
               <div className={styles.copy}>
                 <p>I’m Saif Hossain, an <strong>AI Engineer and Developer</strong> focused on building <strong>intelligent workflows</strong> and useful digital products.</p>
-                <p>My work sits at the intersection of <strong>artificial intelligence, automation, and software development</strong>. I design systems that connect tools, data, APIs, and AI models to reduce repetitive work and make processes more efficient. I also build websites and digital experiences that combine thoughtful functionality with clean, purposeful design.</p>
-                <p>From developing AI-powered automation workflows with n8n, Make, Airtable, and Supabase to building <strong>voice AI systems</strong> with VAPI and Twilio, I enjoy taking ideas from concept to implementation. I also work with modern web technologies, including React, Next.js, and JavaScript, to turn concepts into functional digital products.</p>
-                <p>I believe technology should solve real problems, not simply look impressive in a demo. That is why I focus on <strong>understanding the problem first</strong>, choosing the right tools, building the system, and refining it until it works as intended.</p>
-                <p>I’m particularly interested in agentic AI, intelligent automation, AI-powered applications, and the future of <strong>human–AI collaboration</strong>.</p>
+                <p>I connect tools, data, APIs and AI models to cut repetitive work, and I build websites where clean design meets working functionality. Recently that includes <strong>voice AI systems</strong> with VAPI and Twilio.</p>
+                <p>I start by <strong>understanding the problem</strong>, then pick the right tools. I’m most interested in <strong>agentic AI</strong> and <strong>human–AI collaboration</strong>.</p>
               </div>
             </div>
           </section>
 
           <section className={styles.block} aria-labelledby="about-tools">
-            <h2 id="about-tools">Tools &amp; technologies</h2>
+            <TextReveal as="h2" id="about-tools">Tools &amp; technologies</TextReveal>
             {technologies.map(([category, tools]) => (
               <div key={category} className={styles.toolGroup}>
                 <h3 className={`signal-meta ${styles.index}`}>{category}</h3>
@@ -87,7 +86,7 @@ export default function AboutPage() {
           </section>
 
           <section className={styles.block} aria-labelledby="about-capabilities">
-            <h2 id="about-capabilities">What I work on</h2>
+            <TextReveal as="h2" id="about-capabilities">What I work on</TextReveal>
             <ol className={styles.capabilities}>
               {capabilities.map(([title, description, path], index) => (
                 <li key={title}>
@@ -105,7 +104,7 @@ export default function AboutPage() {
           </section>
 
           <section className={styles.block} aria-labelledby="about-approach">
-            <h2 id="about-approach">My approach</h2>
+            <TextReveal as="h2" id="about-approach">My approach</TextReveal>
             <p className={styles.support}>Understand the problem. Design the system. Build the solution. Test it. Keep improving it.</p>
             <label className={styles.marqueeControl}>
               <input type="checkbox" /> Pause approach animation
@@ -133,14 +132,12 @@ export default function AboutPage() {
             <h2 id="about-signature">I don’t just experiment with AI. <em>I build with it.</em></h2>
             <div className={styles.actions}>
               <LiquidMetalContact href="/work" label="Explore my works" icon="↗" compact accent />
-              <LiquidMetalContact href="/#contact" label="Get in touch" compact />
+              <LiquidMetalContact href="/contact" label="Get in touch" compact />
             </div>
           </section>
         </div>
       </main>
-      <footer className={styles.footer}>
-        <div className="section-inner"><Link href="/#home">Saif Hossain</Link><Link href="/#contact">Contact ↗</Link></div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

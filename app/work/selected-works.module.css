@@ -103,6 +103,10 @@
   .filters button { justify-content: space-between; text-align: left; gap: .3rem; padding-inline: .4rem; }
   .cardBody h2 { font-size: clamp(1.5rem, 5vw, 2rem); }
 }
+.tilt { height: 100%; transform-origin: center; }
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .tilt { will-change: transform; transform-style: flat; }
+}
 .tile {
   display: grid;
   width: 100%;

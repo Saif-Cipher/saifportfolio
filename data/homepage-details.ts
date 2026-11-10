@@ -12,13 +12,6 @@ export const capabilities = [
   { title: "Web development", description: "Build responsive websites and interfaces for digital products.", evidence: "SUMERI, Time and Tide, NeoCut Digital" },
 ];
 
-export const sectionLinks = [
-  { label: "Work", href: "#work" },
-  { label: "Approach", href: "#approach" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
-];
-
 export const contactEmail = "pixelcraftbysaif@gmail.com";
 
 
