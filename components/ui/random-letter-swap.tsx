@@ -16,7 +16,8 @@ export function RandomLetterSwap({
   className = "",
   isTriggered = false,
 }: RandomLetterSwapProps) {
-  const [displayText, setDisplayText] = useState(text);
+  // null means "show the real text"; a string is the current scramble frame.
+  const [scrambled, setScrambled] = useState<string | null>(null);
   const reduceMotion = useReducedMotion();
   const animatingRef = useRef(false);
   const frameRef = useRef<number | null>(null);
@@ -46,12 +47,12 @@ export function RandomLetterSwap({
         })
         .join("");
 
-      setDisplayText(next);
+      setScrambled(next);
 
       if (iteration < maxIterations) {
         frameRef.current = window.setTimeout(tick, 35);
       } else {
-        setDisplayText(text);
+        setScrambled(null);
         animatingRef.current = false;
       }
     };
@@ -60,27 +61,21 @@ export function RandomLetterSwap({
   }, [text, reduceMotion]);
 
   useEffect(() => {
-    if (isTriggered) {
-      startScramble();
-    } else {
-      if (frameRef.current) clearTimeout(frameRef.current);
-      animatingRef.current = false;
-      setDisplayText(text);
-    }
-  }, [isTriggered, startScramble, text]);
-
-  useEffect(() => {
+    if (!isTriggered) return;
+    startScramble();
     return () => {
       if (frameRef.current) clearTimeout(frameRef.current);
+      animatingRef.current = false;
+      setScrambled(null);
     };
-  }, []);
+  }, [isTriggered, startScramble]);
 
   return (
     <span
       className={`inline-block whitespace-nowrap font-mono tabular-nums ${className}`}
       aria-label={text}
     >
-      {displayText}
+      {scrambled ?? text}
     </span>
   );
 }

@@ -16,14 +16,4 @@ tablet-*.png
 /.agents/
 /.codex/
 /AGENTS.md
-/portfolio-content/asset-review/
-/portfolio-content/automation-documentation/
-/portfolio-content/workflow-screenshots-review/
-/portfolio-content/additional-screenshots/
-/portfolio-content/reference/*.pdf
-/portfolio-content/reference/*.docx
-/portfolio-content/reference/*.xlsx
-/portfolio-content/reference/*.html
-/portfolio-content/inventory/raw_scanned_assets.json
-/portfolio-content/inventory/contact_sheet.html
-/portfolio-content/inventory/REVIEW_REQUIRED.md
+/portfolio-content/

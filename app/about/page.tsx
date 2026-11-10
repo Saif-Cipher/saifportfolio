@@ -76,7 +76,7 @@ export default function AboutPage() {
                 <h3 className={`signal-meta ${styles.index}`}>{category}</h3>
                 <ul className={styles.tools} aria-label={category}>
                   {tools.map(([name, icon]) => (
-                    <li key={icon} tabIndex={0}>
+                    <li key={icon}>
                       <Image src={`/assets/about/${icon}.${icon === "vapi" ? "ico" : "svg"}`} alt="" width={36} height={36} unoptimized />
                       <span>{name}</span>
                     </li>
